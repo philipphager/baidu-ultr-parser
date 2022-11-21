@@ -1,0 +1,56 @@
+dataset_path: data/ # /ivi/ilps/datasets/baidu_ultr/
+output_path: output/
+part: 0 # Sweep over all files with part=range(0,2000)
+
+### Define columns to load ###
+query_columns:
+  - qid
+  - query
+#  - query_reformulation
+
+document_columns:
+  - pos
+  - url_md5
+#  - title
+#  - abstract
+#  - multimedia_type
+  - click
+#  - skip
+#  - serp_height
+#  - displayed_time
+#  - displayed_time_middle
+#  - first_click
+#  - displayed_count
+#  - sero_max_show_height
+#  - slipoff_count_after_click
+#  - dwelling_time
+#  - displayed_time_top
+#  - sero_to_top
+#  - displayed_count_top
+#  - displayed_count_bottom
+#  - slipoff_count
+#  - final_click
+#  - displayed_time_bottom
+#  - click_count
+#  - displayed_count_2
+#  - last_click
+#  - reverse_display_count
+#  - displayed_count_middle
+
+### Post-processing while merging ###
+document_pipeline:
+  _target_: src.processing.Pipeline
+  steps:
+    - _target_: src.processing.EncodeLabel
+      column: url_md5
+    - _target_: src.processing.EncodeLabel
+      column: qid
+    - _target_: src.processing.RenameColumns
+      column_mapping:
+        qid: query_id
+        url_md5: doc_id
+        pos: position
+
+query_pipeline:
+  _target_: src.processing.Pipeline
+  steps: [ ]
