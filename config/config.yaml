@@ -1,16 +1,21 @@
-dataset_path: /ivi/ilps/datasets/baidu_ultr/
-output_path: /ivi/ilps/personal/phager/baidu_ultr/
-part: 0
+defaults:
+  - override hydra/launcher: submitit_slurm # Configure a Hydra launcher to parse multiple parts in parallel, for SLURM use e.g.: https://hydra.cc/docs/plugins/submitit_launcher/
+
+dataset_path: /ivi/ilps/datasets/baidu_ultr/ # Input directory with part-*.gz files
+output_path: /ivi/ilps/personal/phager/baidu_ultr/ # Output directory to store .parquet files
+part: 0 # Specific part number to load, sweep over multiple parts with python parse.py -m 'part=range(0,2000)'
 
 ### Define columns to load ###
 query_columns: []
+
 document_columns:
   - pos
   - url_md5
   - click
   - displayed_count
 
-### Post-processing while merging ###
+### Post-process ###
+# Process each part before merging, e.g., for mapping columns or changing datatypes
 document_pipeline:
   _target_: src.processing.Pipeline
   steps:
@@ -28,10 +33,9 @@ query_pipeline:
   _target_: src.processing.Pipeline
   steps: [ ]
 
+# Delete temporary .parquet files created per part after merging into a single output file.
+# Not deleting parts might be beneficial when debugging post-processing pipelines.
 delete_parts_after_merge: True
-
-defaults:
-  - override hydra/launcher: submitit_slurm
 
 hydra:
   launcher:
@@ -39,6 +43,3 @@ hydra:
     cpus_per_task: 4
     array_parallelism: 10
     partition: cpu
-
-
-
