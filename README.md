@@ -18,6 +18,8 @@ Parse and preprocess the Baidu unbiased-learning-to-rank dataset for the WSDM Cu
 2. Merge all resulting parts and perform post-processing: `python merge.py`
 
 ## Columns
+The dataset contains features per search query and per document in each displayed SERP. Find the full documentation of the column meaning here: https://aistudio.baidu.com/aistudio/competition/detail/534/0/introduction
+
 ### Query dataset
 ```yaml
 query_columns:
