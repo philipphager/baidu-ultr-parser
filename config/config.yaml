@@ -1,5 +1,5 @@
-dataset_path: data/
-output_path: output/
+dataset_path: /ivi/ilps/datasets/baidu_ultr/
+output_path: /ivi/ilps/personal/phager/baidu_ultr/
 part: 0
 
 ### Define columns to load ###
@@ -29,3 +29,16 @@ query_pipeline:
   steps: [ ]
 
 delete_parts_after_merge: True
+
+defaults:
+  - override hydra/launcher: submitit_slurm
+
+hydra:
+  launcher:
+    mem_gb: 4
+    cpus_per_task: 4
+    array_parallelism: 10
+    partition: cpu
+
+
+
