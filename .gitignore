@@ -1,0 +1,25 @@
+# System
+.DS_Store
+*.log
+
+# IDEs
+.idea
+.vscode
+
+# Python files
+*.pyc
+.ipynb_checkpoints
+.hydra
+
+# Project outputs
+lightning_logs
+outputs
+wandb
+multirun
+
+#Misc
+slurm*
+tmp*
+
+# Datasets
+*.gz
