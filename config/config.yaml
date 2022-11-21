@@ -1,7 +1,7 @@
 defaults:
   - override hydra/launcher: submitit_slurm # Configure a Hydra launcher to parse multiple parts in parallel, for SLURM use e.g.: https://hydra.cc/docs/plugins/submitit_launcher/
 
-dataset_path: /ivi/ilps/datasets/WSDM2023/ULTR # Input directory with part-*.gz files
+dataset_path: /ivi/ilps/datasets/baidu_ultr/ # Input directory with part-*.gz files
 output_path: /ivi/ilps/personal/phager/baidu_ultr/ # Output directory to store .parquet files
 part: 0 # Specific part number to load, sweep over multiple parts with python parse.py -m 'part=range(0,2000)'
 
