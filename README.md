@@ -1,6 +1,6 @@
 # Baidu WSDM Cup 2023 Parser
 
-Parse and preprocess the Baidu unbiased-learning-to-rank dataset for the WSDM Cup 2023 to a .parquet file. The parser uses hydra and can be used on SLURM for parsing multiple files in parallel. 
+Parse and preprocess the Baidu unbiased-learning-to-rank dataset for the WSDM Cup 2023. The parser uses [hydra](https://hydra.cc/) for configuration and can be run, e.g. on SLURM clusters for parsing multiple files in parallel.
 
 ## Installation
 1. Create conda environment: `conda env create -f environment.yaml`
