@@ -1,6 +1,6 @@
-dataset_path: data/ # /ivi/ilps/datasets/baidu_ultr/
+dataset_path: data/
 output_path: output/
-part: 0 # Sweep over all files with part=range(0,2000)
+part: 0
 
 ### Define columns to load ###
 query_columns: []
