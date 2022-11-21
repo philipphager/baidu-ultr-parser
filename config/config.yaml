@@ -27,3 +27,5 @@ document_pipeline:
 query_pipeline:
   _target_: src.processing.Pipeline
   steps: [ ]
+
+delete_parts_after_merge: True
