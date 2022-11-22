@@ -19,13 +19,13 @@ def index(
 
     db_path = out_path / f"{type}-{column}"
 
-    with dbm.open(db_path, "c") as db:
+    with dbm.open(str(db_path), "c") as db:
         db["max_idx"] = str(0)
 
     for path in sorted(out_path.rglob(f"{type}-*"))[:10]:
         df = pd.read_parquet(path)
 
-        with dbm.open(db_path, "c") as db:
+        with dbm.open(str(db_path), "c") as db:
             for value in df[column].values:
                 if value not in db:
                     db[str(value)] = str(db["max_idx"])
