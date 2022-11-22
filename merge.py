@@ -35,7 +35,7 @@ def merge(
     if delete_parts_after_merge:
         for path in out_path.rglob(f"{type}-*"):
             path.unlink()
-            logger.debug(f"Deleted: {path}")
+            logger.info(f"Deleted: {path}")
 
 
 @hydra.main(config_path="config", config_name="config", version_base="1.2")
