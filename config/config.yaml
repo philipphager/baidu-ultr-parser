@@ -25,9 +25,7 @@ document_pipeline:
       column: qid
     - _target_: src.processing.RenameColumns
       column_mapping:
-        qid: query_id
-        url_md5: doc_id
-        pos: position
+        url_md5: url
 
 query_pipeline:
   _target_: src.processing.Pipeline
