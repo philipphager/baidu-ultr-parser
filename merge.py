@@ -20,7 +20,7 @@ def merge(
     frames = []
     logger.info(f"Merging: {type}")
 
-    for path in out_path.rglob(f"{type}-*"):
+    for path in sorted(out_path.rglob(f"{type}-*")):
         logger.info(f"Loading: {path}")
         df = pd.read_parquet(path)
         df = pipeline(df)
