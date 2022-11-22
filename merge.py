@@ -21,7 +21,7 @@ def merge(
     logger.info(f"Merging: {type}")
 
     for path in out_path.rglob(f"{type}-*"):
-        logger.debug(f"Loading: {path}")
+        logger.info(f"Loading: {path}")
         df = pd.read_parquet(path)
         df = pipeline(df)
         frames.append(df)
