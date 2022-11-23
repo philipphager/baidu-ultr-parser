@@ -37,9 +37,9 @@ query_pipeline:
 # Not deleting parts might be beneficial when debugging post-processing pipelines.
 delete_parts_after_merge: True
 
-#hydra:
-#  launcher:
-#    mem_gb: 4
-#    cpus_per_task: 4
-#    array_parallelism: 10
-#    partition: cpu
+hydra:
+  launcher:
+    mem_gb: 4
+    cpus_per_task: 4
+    array_parallelism: 10
+    partition: cpu
