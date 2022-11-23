@@ -27,7 +27,6 @@ class EncodeLabel(Step):
     def __init__(self, column: str):
         self.column = column
         self.label2id = OrderedSet()
-        self.max_id = 0
 
     def __call__(self, df):
         logger.debug("Preprocessing: Encoding url_md5 as integer ids")
