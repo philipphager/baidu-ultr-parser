@@ -1,6 +1,8 @@
 import logging
 from typing import List, Dict
 
+from ordered_set import OrderedSet
+
 logger = logging.getLogger(__name__)
 
 
@@ -24,7 +26,7 @@ class Pipeline:
 class EncodeLabel(Step):
     def __init__(self, column: str):
         self.column = column
-        self.label2id = {}
+        self.label2id = OrderedSet()
         self.max_id = 0
 
     def __call__(self, df):
@@ -35,10 +37,9 @@ class EncodeLabel(Step):
 
     def _fit_predict(self, label):
         if label not in self.label2id:
-            self.label2id[label] = self.max_id
-            self.max_id += 1
+            self.label2id.add(label)
 
-        return self.label2id[label]
+        return self.label2id.index(label)
 
 
 class RenameColumns(Step):
