@@ -20,10 +20,8 @@ document_pipeline:
   _target_: src.processing.Pipeline
   steps:
     - _target_: src.processing.EncodeLabel
-      cache_path: /ivi/ilps/datasets/baidu_ultr_small
       column: url_md5
     - _target_: src.processing.EncodeLabel
-      cache_path: /ivi/ilps/datasets/baidu_ultr_small
       column: qid
     - _target_: src.processing.RenameColumns
       column_mapping:
