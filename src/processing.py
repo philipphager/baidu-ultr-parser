@@ -1,4 +1,6 @@
 import logging
+import shelve
+from pathlib import Path
 from typing import List, Dict
 
 from ordered_set import OrderedSet
@@ -24,21 +26,26 @@ class Pipeline:
 
 
 class EncodeLabel(Step):
-    def __init__(self, column: str):
+    def __init__(self, cache_path: str, column: str):
+        self.cache_path = Path(cache_path)
         self.column = column
-        self.label2id = OrderedSet()
+        self.max_id = 0
 
     def __call__(self, df):
         logger.debug("Preprocessing: Encoding url_md5 as integer ids")
-        df[self.column] = df[self.column].map(self._fit_predict)
+
+        with shelve.open(str(self.cache_path / self.column)) as db:
+            df[self.column] = df[self.column].map(lambda x: self._fit_predict(x, db))
 
         return df
 
-    def _fit_predict(self, label):
-        if label not in self.label2id:
-            self.label2id.add(label)
+    def _fit_predict(self, label, db):
 
-        return self.label2id.index(label)
+        if label not in db:
+            db[label] = self.max_id
+            self.max_id += 1
+
+        return db[label]
 
 
 class RenameColumns(Step):
