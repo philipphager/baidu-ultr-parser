@@ -18,7 +18,7 @@ def process(
 ):
     logger.info(f"Processing: {type}")
 
-    for path in sorted(out_path.rglob(f"{type}-*")):
+    for path in sorted(out_path.rglob(f"{type}-*"))[:500]:
         logger.info(f"Loading: {path}")
         df = pd.read_parquet(path)
         df = pipeline(df)
