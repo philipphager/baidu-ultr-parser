@@ -17,6 +17,7 @@ def main(config: DictConfig):
     dfs = []
 
     for path in sorted(in_path.rglob(f"part-*")):
+        logger.info(f"Merge file: {path}")
         dfs.append(pd.read_parquet(path))
 
     df = pd.concat(dfs)
