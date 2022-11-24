@@ -15,17 +15,23 @@ class Dataset:
         document_columns: Optional[List[str]],
     ):
         self.path = path
-        self.query_columns = query_columns if query_columns is not None else []
-        self.document_columns = document_columns if query_columns is not None else []
-        self.query_idx = self.get_colum_idx(QUERY_COLUMNS, query_columns)
-        self.document_idx = self.get_colum_idx(DOCUMENT_COLUMNS, document_columns)
+        self.query_columns, self.query_idx = self.get_columns(
+            QUERY_COLUMNS, query_columns
+        )
+        self.document_columns, self.document_idx = self.get_columns(
+            DOCUMENT_COLUMNS, document_columns
+        )
 
     @staticmethod
-    def get_colum_idx(columns, selected_columns):
+    def get_columns(columns, selected_columns):
         for c in selected_columns:
             assert c in columns, f"Column: {c} not found in: {columns}"
 
-        return [i for i, c in enumerate(columns) if c in selected_columns]
+        columns, idx = zip(
+            *[(c, i) for i, c in enumerate(columns) if c in selected_columns]
+        )
+
+        return list(columns), list(idx)
 
     def parse(self):
         query_rows = []
