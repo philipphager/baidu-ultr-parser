@@ -23,4 +23,5 @@ tmp*
 
 # Datasets
 *.gz
+*.txt
 *.parquet
