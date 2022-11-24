@@ -25,7 +25,7 @@ def main(config: DictConfig):
     document_df = pd.read_parquet(document_path)
 
     df = document_df.merge(query_df, on=["qid"])
-    filtered_df = df.merge(test_df[["query_md5"]], on=["query_md5"])
+    filtered_df = df.merge(test_df[["query_md5"]], on=["query_md5", "title_md5"])
     filtered_df.to_parquet(out_path / f"part-{config.part:05d}.parquet")
 
 
