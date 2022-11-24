@@ -6,30 +6,33 @@ output_path: /ivi/ilps/datasets/baidu_ultr_small/ # Output directory to store .p
 part: 0 # Specific part number to load, sweep over multiple parts with python parse.py -m 'part=range(0,2000)'
 
 ### Define columns to load ###
-query_columns: []
+query_columns:
+  - qid
+  - query
 
 document_columns:
   - pos
-  - url_md5
   - click
   - displayed_count
+  - title
 
 ### Post-process ###
 # Process each part before merging, e.g., for mapping columns or changing datatypes
 document_pipeline:
   _target_: src.processing.Pipeline
   steps:
-    - _target_: src.processing.EncodeLabel
-      column: url_md5
-    - _target_: src.processing.EncodeLabel
-      column: qid
-    - _target_: src.processing.RenameColumns
-      column_mapping:
-        url_md5: url
+    - _target_: src.processing.HashTokens
+      column: title
+      unique_tokens: False
+      drop_column: True
 
 query_pipeline:
   _target_: src.processing.Pipeline
-  steps: [ ]
+  steps:
+    - _target_: src.processing.HashTokens
+      column: query
+      unique_tokens: False
+      drop_column: True
 
 # Delete temporary .parquet files created per part after merging into a single output file.
 # Not deleting parts might be beneficial when debugging post-processing pipelines.
