@@ -27,6 +27,9 @@ class Dataset:
         for c in selected_columns:
             assert c in columns, f"Column: {c} not found in: {columns}"
 
+        if len(selected_columns) == 0:
+            return [], []
+
         columns, idx = zip(
             *[(c, i) for i, c in enumerate(columns) if c in selected_columns]
         )
