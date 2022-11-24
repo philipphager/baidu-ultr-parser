@@ -30,7 +30,7 @@ class EncodeLabel(Step):
         self.max_id = 0
 
     def __call__(self, df: pd.DataFrame) -> pd.DataFrame:
-        logger.debug("Preprocessing: Encoding url_md5 as integer ids")
+        logger.info("Preprocessing: Encoding url_md5 as integer ids")
         df[self.column] = df[self.column].map(self._fit_predict)
 
         return df
@@ -48,19 +48,24 @@ class RenameColumns(Step):
         self.column_mapping = column_mapping
 
     def __call__(self, df: pd.DataFrame) -> pd.DataFrame:
-        logger.debug("Preprocessing: Renaming columns")
+        logger.info("Preprocessing: Renaming columns")
         df = df.rename(columns=self.column_mapping)
         return df
 
 
 class HashTokens(Step):
-    def __init__(self, column: str, unique_tokens: bool = False):
+    def __init__(self, column: str, unique_tokens: bool, drop_column: bool):
         self.column = column
         self.unique_tokens = unique_tokens
+        self.drop_column = drop_column
 
     def __call__(self, df: pd.DataFrame) -> pd.DataFrame:
-        logger.debug(f"Preprocessing: Hashing tokens in {self.column} using md5")
+        logger.info(f"Preprocessing: Hashing tokens in {self.column} using md5")
         df[f"{self.column}_md5"] = df[self.column].map(self.md5)
+
+        if self.drop_column:
+            df = df.drop(columns=[self.column])
+
         return df
 
     def md5(self, text: str) -> str:

@@ -2,6 +2,7 @@ import logging
 from pathlib import Path
 
 import hydra
+from hydra.utils import instantiate
 from omegaconf import DictConfig, OmegaConf
 
 from src.dataset import Dataset
@@ -30,9 +31,13 @@ def main(config: DictConfig):
     query_df, document_df = dataset.parse()
 
     if len(query_df) > 0:
+        query_pipeline = instantiate(config.query_pipeline)
+        query_df = query_pipeline(query_df)
         query_df.to_parquet(out_path / f"query-{path.stem}.parquet")
 
     if len(document_df) > 0:
+        document_pipeline = instantiate(config.document_pipeline)
+        document_df = document_pipeline(document_df)
         document_df.to_parquet(out_path / f"document-{path.stem}.parquet")
 
 
