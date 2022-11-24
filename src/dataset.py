@@ -4,10 +4,10 @@ from typing import List, Union, Optional
 
 import pandas as pd
 
-from src.const import QUERY_COLUMNS, DOCUMENT_COLUMNS
+from src.const import QUERY_COLUMNS, DOCUMENT_COLUMNS, TEST_COLUMNS
 
 
-class Dataset:
+class TrainDataset:
     def __init__(
         self,
         path: Union[Path, str],
@@ -70,3 +70,18 @@ class Dataset:
         )
 
         return query_df, document_df
+
+
+class TestDataset:
+    def __init__(
+        self,
+        path: Union[Path, str],
+        columns: List[str],
+    ):
+        self.path = path
+        self.columns = columns
+
+    def parse(self):
+        df = pd.read_csv(self.path, sep="\t", header=None, names=TEST_COLUMNS)
+        df = df[self.columns]
+        return df

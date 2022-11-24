@@ -38,3 +38,11 @@ DOCUMENT_COLUMNS = [
     "displayed_count_middle",
     "-",
 ]
+
+TEST_COLUMNS = [
+    "query",
+    "title",
+    "abstract",
+    "label",
+    "bucket"
+]
