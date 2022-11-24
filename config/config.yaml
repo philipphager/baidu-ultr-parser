@@ -5,20 +5,25 @@ dataset_path: /ivi/ilps/datasets/baidu_ultr/ # Input directory with part-*.gz fi
 output_path: /ivi/ilps/datasets/baidu_ultr_small/ # Output directory to store .parquet files
 part: 0 # Specific part number to load, sweep over multiple parts with python parse.py -m 'part=range(0,2000)'
 
-### Define columns to load ###
-query_columns:
+### Train columns to load ###
+train_query_columns:
   - qid
   - query
 
-document_columns:
+train_document_columns:
   - pos
   - click
   - displayed_count
   - title
 
+### Test columns to load ###
+test_columns:
+  - query
+  - title
+  - label
+
 ### Post-process ###
-# Process each part before merging, e.g., for mapping columns or changing datatypes
-document_pipeline:
+train_document_pipeline:
   _target_: src.processing.Pipeline
   steps:
     - _target_: src.processing.HashTokens
@@ -26,11 +31,23 @@ document_pipeline:
       unique_tokens: False
       drop_column: True
 
-query_pipeline:
+train_query_pipeline:
   _target_: src.processing.Pipeline
   steps:
     - _target_: src.processing.HashTokens
       column: query
+      unique_tokens: False
+      drop_column: True
+
+test_pipeline:
+  _target_: src.processing.Pipeline
+  steps:
+    - _target_: src.processing.HashTokens
+      column: query
+      unique_tokens: False
+      drop_column: True
+    - _target_: src.processing.HashTokens
+      column: title
       unique_tokens: False
       drop_column: True
 
